@@ -1,60 +1,65 @@
-module.exports = function(RED) {
-  // https://github.com/axios/axios
-  var axios = require("axios");
-  var mustache = require("mustache");
+function safeJSONStringify(input, maxDepth) {
+var output,
+  refs = [],
+  refsPaths = [];
 
-  var vers = "0.2.3";
+maxDepth = maxDepth || 5;
 
-  function safeJSONStringify(input, maxDepth) {
-    var output,
-      refs = [],
-      refsPaths = [];
+function recursion(input, path, depth) {
+  var output = {},
+    pPath,
+    refIdx;
 
-    maxDepth = maxDepth || 5;
+  path = path || "";
+  depth = depth || 0;
+  depth++;
 
-    function recursion(input, path, depth) {
-      var output = {},
-        pPath,
-        refIdx;
-
-      path = path || "";
-      depth = depth || 0;
-      depth++;
-
-      if (maxDepth && depth > maxDepth) {
-        return "{depth over " + maxDepth + "}";
-      }
-
-      for (var p in input) {
-        pPath = (path ? path + "." : "") + p;
-        if (typeof input[p] === "function") {
-          output[p] = "{function}";
-        } else if (typeof input[p] === "object") {
-          refIdx = refs.indexOf(input[p]);
-
-          if (-1 !== refIdx) {
-            output[p] = "{reference to " + refsPaths[refIdx] + "}";
-          } else {
-            refs.push(input[p]);
-            refsPaths.push(pPath);
-            output[p] = recursion(input[p], pPath, depth);
-          }
-        } else {
-          output[p] = input[p];
-        }
-      }
-
-      return output;
-    }
-
-    if (typeof input === "object") {
-      output = recursion(input);
-    } else {
-      output = input;
-    }
-
-    return JSON.stringify(output);
+  if (maxDepth && depth > maxDepth) {
+    return "{depth over " + maxDepth + "}";
   }
+
+  for (var p in input) {
+    pPath = (path ? path + "." : "") + p;
+    if (typeof input[p] === "function") {
+      output[p] = "{function}";
+    } else if (typeof input[p] === "object") {
+      refIdx = refs.indexOf(input[p]);
+
+      if (-1 !== refIdx) {
+        output[p] = "{reference to " + refsPaths[refIdx] + "}";
+      } else {
+        refs.push(input[p]);
+        refsPaths.push(pPath);
+        output[p] = recursion(input[p], pPath, depth);
+      }
+    } else {
+      output[p] = input[p];
+    }
+  }
+
+  return output;
+}
+
+if (typeof input === "object") {
+  output = recursion(input);
+} else {
+  output = input;
+}
+
+return JSON.stringify(output);
+}
+
+
+
+module.exports = function(RED) {
+  
+  
+  // https://github.com/axios/axios
+  const axios = require("axios");
+  const mustache = require("mustache");
+
+  const vers = "1.0.0";
+
 
   function GraphqlNode(config) {
     RED.nodes.createNode(this, config);
@@ -98,24 +103,24 @@ module.exports = function(RED) {
     }
 
     // This function returns true if you have a valid Ticket, false if you don't
-    function testTicket() {
-      // GET /user/{username}
-      RED.log.debug("--- test ticket ---");
-      axios({
-        method: "POST",
-        url:
-          node.graphqlConfig.endpoint +
-          "user/" +
-          node.graphqlConfig.credentials.user,
-        timeout: 20000,
-        headers: {
-          "x-auth-token": node.graphqlConfig.credentials.serviceTicket
-        }
-        // withCredentials: useCredentials
-      }).then(function(response) {
-        RED.log.debug("response:" + response);
-      });
-    }
+    // function testTicket() {
+    //   // GET /user/{username}
+    //   RED.log.debug("--- test ticket ---");
+    //   axios({
+    //     method: "POST",
+    //     url:
+    //       node.graphqlConfig.endpoint +
+    //       "user/" +
+    //       node.graphqlConfig.credentials.user,
+    //     timeout: 20000,
+    //     headers: {
+    //       "x-auth-token": node.graphqlConfig.credentials.serviceTicket
+    //     }
+    //     // withCredentials: useCredentials
+    //   }).then(function(response) {
+    //     RED.log.debug("response:" + response);
+    //   });
+    // }
 
     function doLogin() {
       node.status({

@@ -1,0 +1,18 @@
+{
+    "presets": [
+      ["@babel/preset-env", {
+        "targets": {
+          "node": "current"
+        },
+        "useBuiltIns": "usage"
+      }],
+      ["@babel/preset-stage-0", {
+        "decoratorsLegacy": true
+      }]
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread",
+      "babel-plugin-autobind-class-methods"
+    ]
+  }
