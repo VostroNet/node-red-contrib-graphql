@@ -3,25 +3,27 @@
   "version": "1.0.0",
   "description": "A Node-RED node to make GraphQL calls",
   "devDependencies": {
-    "babel-eslint": "^8.2.2",
-    "eslint": "^4.19.1",
-    "del": "^3.0.0",
     "@babel/core": "^7.0.0-beta.44",
-    "expect": "^22.4.3",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^8.0.0-beta.2",
-    "gulp-eslint": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.4",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
     "@babel/plugin-transform-runtime": "^7.0.0-beta.44",
     "@babel/preset-env": "^7.0.0-beta.44",
     "@babel/preset-stage-0": "^7.0.0-beta.44",
-    "@babel/runtime": "^7.0.0-beta.44"
+    "@babel/runtime": "^7.0.0-beta.44",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-autobind-class-methods": "^5.0.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "del": "^3.0.0",
+    "eslint": "^4.19.1",
+    "expect": "^22.4.3",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-eslint": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4"
   },
   "dependencies": {
-    "fetch": "^1.1.0",
-    "mustache": "^2.3.0"
+    "mustache": "^2.3.0",
+    "node-fetch": "^2.2.0"
   },
   "repository": {
     "type": "git",
@@ -34,7 +36,7 @@
   ],
   "node-red": {
     "nodes": {
-      "graphql": "build/index.js"
+      "graphql": "build/graphql.js"
     }
   },
   "author": {

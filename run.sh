@@ -1,0 +1,1 @@
+docker run -p 1880:1880 -v "$(pwd)":/usr/src/node-red/node_modules/node-red-contrib-graphql registry.dev.vostronet.com/nodered

@@ -1,13 +1,10 @@
 {
     "presets": [
-      ["@babel/preset-env", {
+      ["@babel/env", {
         "targets": {
-          "node": "current"
+          "node": "8.11.2"
         },
         "useBuiltIns": "usage"
-      }],
-      ["@babel/preset-stage-0", {
-        "decoratorsLegacy": true
       }]
     ],
     "plugins": [
